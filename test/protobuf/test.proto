@@ -1,0 +1,60 @@
+syntax = "proto3";  //声明了protobuf的版本
+
+package fixbug;     // 声明了代码所在的包（对于C++来说是namespace）
+
+option cc_generic_services = true;  // 定义该选项，表示生成service服务类和rpc方法描述，默认不生成
+
+message ResultCode
+{
+    int32 errcode = 1;
+    bytes errmsg = 2;
+}
+
+// 一般都会将string类型定义成bytes
+message LoginRequest
+{
+    bytes name = 1;
+    bytes pwd = 2;
+    // map<int32, bytes> test = 3;
+}
+
+message LoginResponse
+{
+    ResultCode result = 1;
+    bool success = 2;
+}
+
+message GetFriendListsRequest
+{
+    uint32 userid = 1;
+}
+
+message User
+{
+    enum Sex
+    {
+        M = 0;
+        F = 1;
+    }
+    bytes name = 1;
+    uint32 age = 2;
+    Sex sex = 3;
+}
+
+message GetFriendListsResponse
+{
+    ResultCode result = 1;
+    repeated User friendList = 2;   // 定义了一个列表类型
+}
+
+
+
+// 如何在protobuf中如何定义描述RPC方法的类型—— service
+service UserServicRPC
+{
+	rpc Login(LoginRequest) returns(LoginResponse);
+    rpc GetFriendLists(GetFriendListsRequest) returns(GetFriendListsResponse);
+}
+
+
+// protoc test.proto --cpp_out=./

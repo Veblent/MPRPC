@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package fixbug;
+
+option cc_generic_services = true;
+
+message ResultCode
+{
+    int32 errcode = 1;
+    bytes errmsg = 2;
+}
+
+message GetFriendListReuqset
+{
+    uint32 userId = 1;
+}
+
+
+message GetFriendListResponse
+{
+    ResultCode ret = 1;
+    repeated bytes friendsList = 2;
+}
+
+service FriendServiceRpc
+{
+    rpc GetFriendList(GetFriendListReuqset) returns(GetFriendListResponse);
+}
+
+// protoc friend.proto --cpp_out=./
