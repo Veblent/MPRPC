@@ -78,7 +78,6 @@ void RpcProvider::Run()
             // ZOO_EPHEMERAL表示znode是一个临时性节点
             zkCli.Create(method_path.c_str(), method_path_data.str().c_str(), method_path_data.str().size(), ZOO_EPHEMERAL);
         }
-
     }
 
     LOG_INFO("Rpc Server Start at IP: [%s]\tPort: [%d]", ip.c_str(), port);
